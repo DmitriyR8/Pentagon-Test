@@ -29,5 +29,5 @@ interface OauthRepositoryInterface
      * @param int $id
      * @return bool
      */
-    public function updateToken(string $accessToken, int $id): bool ;
+    public function updateToken(string $accessToken, int $id): bool;
 }
