@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\OauthService;
+use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
@@ -25,7 +26,10 @@ class OauthController extends Controller
         $this->oauthService = $oauthService;
     }
 
-    public function index()
+    /**
+     * @return View
+     */
+    public function index(): View
     {
         return view('login');
     }
