@@ -8,7 +8,7 @@ use App\Services\OauthService;
  * Class OauthController
  * @package App\Http\Controllers
  */
-class OauthController
+class OauthController extends Controller
 {
     /**
      * @var OauthService
