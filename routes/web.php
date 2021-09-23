@@ -20,6 +20,6 @@ Route::get('/', function () {
 });
 
 Route::post('login', [OauthController::class, 'login'])->name('login');
-Route::post('order/parse', [DataParserController::class, 'parseData'])->name('data.parse');
+Route::post('data/parse', [DataParserController::class, 'parseData'])->name('data.parse');
 Route::get('orders', [DataParserController::class, 'getOrders'])->name('orders');
 Route::get('products', [DataParserController::class, 'getProducts'])->name('products');

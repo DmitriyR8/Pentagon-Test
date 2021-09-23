@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\Contracts\OauthRepositoryInterface;
+use GuzzleHttp\Client;
 
 /**
  * Class OauthService
@@ -14,22 +15,45 @@ class OauthService
      * @var OauthRepositoryInterface
      */
     private $oauthRepository;
+    /**
+     * @var Client
+     */
+    private $client;
+    /**
+     * @var JsonFormatter
+     */
+    private $jsonFormatter;
 
     /**
      * OauthService constructor.
      * @param OauthRepositoryInterface $oauthRepository
+     * @param Client $client
+     * @param JsonFormatter $jsonFormatter
      */
-    public function __construct(OauthRepositoryInterface $oauthRepository)
-    {
+    public function __construct(
+        OauthRepositoryInterface $oauthRepository,
+        Client $client,
+        JsonFormatter $jsonFormatter
+    ) {
         $this->oauthRepository = $oauthRepository;
+        $this->client = $client;
+        $this->jsonFormatter = $jsonFormatter;
     }
 
     /**
      * @return array
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function generateToken(): array
     {
-        return $this->oauthRepository->oauth();
+        return $this->jsonFormatter->decode(
+            $this->client->post('/devInterview/API/en/access-token', [
+                'form_params' => [
+                    'client_id' => env('OAUTH_CLIENT_ID'),
+                    'client_secret' => env('OAUTH_CLIENT_SECRET')
+                ]
+            ])->getBody()
+        );
     }
 
     /**

@@ -9,11 +9,6 @@ namespace App\Repositories\Contracts;
 interface OauthRepositoryInterface
 {
     /**
-     * @return array
-     */
-    public function oauth(): array;
-
-    /**
      * @param array $credentials
      * @return object
      */
