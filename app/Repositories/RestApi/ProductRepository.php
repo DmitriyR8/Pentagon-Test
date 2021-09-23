@@ -35,7 +35,7 @@ class ProductRepository implements ProductRepositoryInterface
     {
         $qb = $this->model->newQuery();
 
-        return $qb->firstOrCreate([
+        return $qb->create([
             'title' => $product['title'],
             'SKU' => $product['SKU']
         ]);
@@ -47,6 +47,8 @@ class ProductRepository implements ProductRepositoryInterface
     public function getProducts(): Enumerable
     {
         $qb = $this->model->newQuery();
+
+        $qb->orderByDesc('id');
 
         return DB::transaction(function () use ($qb) {
             return $qb->get();

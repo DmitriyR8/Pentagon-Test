@@ -57,7 +57,6 @@ class OauthRepository implements OauthRepositoryInterface
         });
     }
 
-
     /**
      * @param string $accessToken
      * @param int $id
@@ -70,5 +69,20 @@ class OauthRepository implements OauthRepositoryInterface
         $qb->where('id', $id);
 
         return $qb->update(['access_token' => $accessToken]);
+    }
+
+    /**
+     * @param int $id
+     * @return mixed
+     */
+    public function deleteToken(int $id)
+    {
+        $qb = $this->model->newQuery();
+
+        return DB::transaction(function () use ($qb, $id) {
+            $qb->find($id);
+
+            return $qb->delete();
+        });
     }
 }
