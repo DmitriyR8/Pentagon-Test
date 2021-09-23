@@ -5,6 +5,7 @@
     @include('header')
 
     <div class="container">
+        <h1 style="text-align: center; padding-bottom: 50px">Orders</h1>
         <table class="table">
             <thead>
             <tr>
