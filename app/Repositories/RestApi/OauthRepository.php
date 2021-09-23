@@ -4,8 +4,6 @@ namespace App\Repositories\RestApi;
 
 use App\ClientCredential;
 use App\Repositories\Contracts\OauthRepositoryInterface;
-use App\Services\JsonFormatter;
-use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -15,48 +13,17 @@ use Illuminate\Support\Facades\DB;
 class OauthRepository implements OauthRepositoryInterface
 {
     /**
-     * @var Client
-     */
-    private $client;
-    /**
-     * @var JsonFormatter
-     */
-    private $jsonFormatter;
-    /**
      * @var ClientCredential
      */
     private $model;
 
     /**
      * OauthRepository constructor.
-     * @param Client $client
-     * @param JsonFormatter $jsonFormatter
      * @param ClientCredential $model
      */
-    public function __construct(
-        Client $client,
-        JsonFormatter $jsonFormatter,
-        ClientCredential $model
-    ) {
-        $this->client = $client;
-        $this->jsonFormatter = $jsonFormatter;
-        $this->model = $model;
-    }
-
-    /**
-     * @return array
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
-    public function oauth(): array
+    public function __construct(ClientCredential $model)
     {
-        return $this->jsonFormatter->decode(
-            $this->client->post('/devInterview/API/en/access-token', [
-                'form_params' => [
-                    'client_id' => env('OAUTH_CLIENT_ID'),
-                    'client_secret' => env('OAUTH_CLIENT_SECRET')
-                ]
-            ])->getBody()
-        );
+        $this->model = $model;
     }
 
     /**
