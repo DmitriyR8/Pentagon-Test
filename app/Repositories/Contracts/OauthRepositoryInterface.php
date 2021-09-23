@@ -25,4 +25,10 @@ interface OauthRepositoryInterface
      * @return bool
      */
     public function updateToken(string $accessToken, int $id): bool;
+
+    /**
+     * @param int $id
+     * @return mixed
+     */
+    public function deleteToken(int $id);
 }

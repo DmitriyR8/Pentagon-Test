@@ -36,7 +36,7 @@ class OrderRepository implements OrderRepositoryInterface
     {
         $qb = $this->model->newQuery();
 
-        return $qb->firstOrCreate([
+        return $qb->create([
             'order_id' => $order['id'],
             'total' => $order['total'],
             'shipping_total' => $order['shipping_total'],
@@ -51,6 +51,8 @@ class OrderRepository implements OrderRepositoryInterface
     public function getOrders(): Enumerable
     {
         $qb = $this->model->newQuery();
+
+        $qb->orderByDesc('id');
 
         return DB::transaction(function () use ($qb) {
             return $qb->get();

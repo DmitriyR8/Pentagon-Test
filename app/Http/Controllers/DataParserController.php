@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Services\DataParseService;
-use Illuminate\Support\Enumerable;
+use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Class DataParserController
@@ -26,9 +27,10 @@ class DataParserController extends Controller
     }
 
     /**
+     * @return RedirectResponse|null
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function parseData(): void
+    public function parseData(): ?RedirectResponse
     {
         $data = $this->dataParseService->dataParse();
 
@@ -44,6 +46,8 @@ class DataParserController extends Controller
             parse_str($data, $order);
 
             $this->dataParseService->saveOrder($order);
+
+            return redirect()->route('orders');
         }
 
         if (strpos($data, 'product:') !== false) {
@@ -58,22 +62,29 @@ class DataParserController extends Controller
             parse_str($data, $product);
 
             $this->dataParseService->saveProduct($product);
+
+            return redirect()->route('products');
         }
     }
 
     /**
-     * @return Enumerable
+     * @return View
      */
-    public function getOrders(): Enumerable
+    public function getOrders(): View
     {
-        return $this->dataParseService->getOrders();
+
+        $orders = $this->dataParseService->getOrders();
+
+        return view('orders.content', ['orders' => $orders]);
     }
 
     /**
-     * @return Enumerable
+     * @return View
      */
-    public function getProducts(): Enumerable
+    public function getProducts(): View
     {
-        return $this->dataParseService->getProducts();
+        $products = $this->dataParseService->getProducts();
+
+        return view('products.content', ['products' => $products]);
     }
 }

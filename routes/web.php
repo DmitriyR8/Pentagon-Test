@@ -15,11 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
+Route::get('/', [OauthController::class, 'index'])->name('index');
 Route::post('login', [OauthController::class, 'login'])->name('login');
-Route::post('data/parse', [DataParserController::class, 'parseData'])->name('data.parse');
+Route::post('logout', [OauthController::class, 'logout'])->name('logout');
+Route::post('parse', [DataParserController::class, 'parseData'])->name('parse');
 Route::get('orders', [DataParserController::class, 'getOrders'])->name('orders');
 Route::get('products', [DataParserController::class, 'getProducts'])->name('products');

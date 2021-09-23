@@ -82,4 +82,13 @@ class OauthService
     {
         return $this->oauthRepository->updateToken($accessToken, $id);
     }
+
+    /**
+     * @param int $id
+     * @return mixed
+     */
+    public function deleteToken(int $id)
+    {
+        return $this->oauthRepository->deleteToken($id);
+    }
 }

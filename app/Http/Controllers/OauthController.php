@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Services\OauthService;
+use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Class OauthController
@@ -25,9 +27,18 @@ class OauthController extends Controller
     }
 
     /**
-     * @return void
+     * @return View
      */
-    public function login(): void
+    public function index(): View
+    {
+        return view('login');
+    }
+
+    /**
+     * @return RedirectResponse|null
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function login(): ?RedirectResponse
     {
         $generateToken = $this->oauthService->generateToken();
 
@@ -38,5 +49,23 @@ class OauthController extends Controller
         } else {
             $this->oauthService->saveToken($generateToken);
         }
+
+        return redirect()->route('orders');
+    }
+
+    /**
+     * @return RedirectResponse|null
+     */
+    public function logout(): ?RedirectResponse
+    {
+        $getToken = $this->oauthService->getToken();
+
+        if (null !== $getToken) {
+            $this->oauthService->deleteToken($getToken->id);
+
+            return redirect()->route('index');
+        }
+
+        return null;
     }
 }
