@@ -35,7 +35,7 @@ class ProductRepository implements ProductRepositoryInterface
     {
         $qb = $this->model->newQuery();
 
-        return $qb->create([
+        return $qb->updateOrCreate([
             'title' => $product['title'],
             'SKU' => $product['SKU']
         ]);

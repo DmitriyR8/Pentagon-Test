@@ -36,7 +36,7 @@ class OrderRepository implements OrderRepositoryInterface
     {
         $qb = $this->model->newQuery();
 
-        return $qb->create([
+        return $qb->updateOrCreate([
             'order_id' => $order['id'],
             'total' => $order['total'],
             'shipping_total' => $order['shipping_total'],
